@@ -76,7 +76,7 @@ rule download_data:
     shell:
         """
         wget {data_source}CLIN.txt -O {prefix}download/CLIN.txt
-        wget {data_source}gene-expression-matrix-TPM-final.tsv -O {prefix}download/gene-expression-matrix-TPM-final.tsv
+        wget {large_data_source}gene-expression-matrix-TPM-final.tsv?raw=true -O {prefix}download/gene-expression-matrix-TPM-final.tsv
         wget {large_data_source}INSPIRE.combinedVariants.snv.released.112020.renamed.vcf.gz?raw=true -O {prefix}download/INSPIRE.combinedVariants.snv.released.112020.renamed.vcf.gz
         wget {large_data_source}INSPIRE.combinedVariants.indel.released.112020.renamed.vcf.gz?raw=true -O {prefix}download/INSPIRE.combinedVariants.indel.released.112020.renamed.vcf.gz
         """ 
