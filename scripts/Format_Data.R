@@ -10,9 +10,7 @@ source("https://raw.githubusercontent.com/BHKLAB-Pachyderm/ICB_Common/main/code/
 #############################################################################
 #############################################################################
 
-expr = read.table( file.path(input_dir, "gene-expression-matrix-TPM-final.tsv") , sep="\t" , header=TRUE , stringsAsFactors = FALSE )
-expr = expr[ , grep( "ST" , colnames( expr ) ) ]
-colnames(expr) = sapply( colnames(expr) , function(x){ paste( unlist( strsplit( x , "." , fixed=TRUE ) )[1:3] , collapse="-" ) } )
+load(file.path(input_dir, "INSPIRE_RNASEQ_TPM.RData"))
 
 #############################################################################
 #############################################################################
@@ -44,7 +42,7 @@ rownames(clin) <- str_replace_all(rownames(clin), "-", "_")
 clin$patient <- str_replace_all(clin$patient, "-", "_")
 colnames(expr) <- str_replace_all(colnames(expr), "-", "_")
 
-snv = read.csv( file.path(output_dir, "SNV.csv") , sep=";" , stringsAsFactors=FALSE )
+snv = as.data.frame( fread( file.path(output_dir, "SNV.csv") , sep=";" , stringsAsFactors=FALSE , header=TRUE , fill=TRUE ))
 snv = snv[ snv$Sample %in% patient , ]
 snv_patient = unique( sort( snv$Sample ) )
 
@@ -56,3 +54,5 @@ case[ snv_patient , "snv" ] = 1
 write.table( case , file = file.path(output_dir, "cased_sequenced.csv") , sep = ";" , quote = FALSE , row.names = FALSE)
 write.table( clin , file = file.path(output_dir, "CLIN.csv") , sep = ";" , quote = FALSE , row.names = FALSE)
 write.table( expr , file= file.path(output_dir, "EXPR.csv") , quote=FALSE , sep=";" , col.names=TRUE , row.names=TRUE )
+
+

@@ -64,7 +64,7 @@ rule format_data:
         S3.remote(prefix + "processed/cased_sequenced.csv")
     input:
         S3.remote(prefix + "download/CLIN.txt"),
-        S3.remote(prefix + "download/gene-expression-matrix-TPM-final.tsv"),
+        S3.remote(prefix + "download/INSPIRE_RNASEQ_TPM.RData"),
         S3.remote(prefix + "processed/SNV.csv")
     resources:
         mem_mb=2000
@@ -78,7 +78,7 @@ rule format_data:
 rule download_data:
     output:
         S3.remote(prefix + "download/CLIN.txt"),
-        S3.remote(prefix + "download/gene-expression-matrix-TPM-final.tsv"),
+        S3.remote(prefix + "download/INSPIRE_RNASEQ_TPM.RData"),
         S3.remote(prefix + "download/INSPIRE.combinedVariants.snv.released.112020.renamed.vcf.gz"),
         S3.remote(prefix + "download/INSPIRE.combinedVariants.indel.released.112020.renamed.vcf.gz")
     resources:
@@ -86,7 +86,7 @@ rule download_data:
     shell:
         """
         wget {data_source}CLIN.txt -O {prefix}download/CLIN.txt
-        wget {large_data_source}gene-expression-matrix-TPM-final.tsv?raw=true -O {prefix}download/gene-expression-matrix-TPM-final.tsv
+        wget {data_source}INSPIRE_RNASEQ_TPM.RData -O {prefix}download/INSPIRE_RNASEQ_TPM.RData
         wget {large_data_source}INSPIRE.combinedVariants.snv.released.112020.renamed.vcf.gz?raw=true -O {prefix}download/INSPIRE.combinedVariants.snv.released.112020.renamed.vcf.gz
         wget {large_data_source}INSPIRE.combinedVariants.indel.released.112020.renamed.vcf.gz?raw=true -O {prefix}download/INSPIRE.combinedVariants.indel.released.112020.renamed.vcf.gz
         """ 
